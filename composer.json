@@ -1,6 +1,6 @@
 {
-    "name": "zohocrm/php-sdk",
-    "description": "Zoho CRM API SDK for PHP",
+    "name": "stsengine/zohocrm-php-sdk",
+    "description": "Zoho CRM API SDK for PHP clone",
     "type": "SDK",
     "homepage": "https://github.com/zoho/zcrm-php-sdk",
     "authors": [
