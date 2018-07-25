@@ -17,17 +17,14 @@ class ZohoOAuth
 		self::initialize(false);
 	}
 	
-	public static function initialize($configFilePointer)
+	public static function initialize($config)
 	{
 		try
 		{
-			$configPath=realpath(dirname(__FILE__)."/../../../../resources/oauth_configuration.properties");
-			$filePointer=fopen($configPath,"r");
-			self::$configProperties = ZohoOAuthUtil::getFileContentAsMap($filePointer);
-			if($configFilePointer!=false)
+			
+			if($config!=false && is_array($config))
 			{
-				$properties=ZohoOAuthUtil::getFileContentAsMap($configFilePointer);
-				foreach($properties as $key=>$value)
+				foreach($config as $key=>$value)
 				{
 					self::$configProperties[$key]=$value;
 				}
