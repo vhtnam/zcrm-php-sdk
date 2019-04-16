@@ -110,14 +110,8 @@ class ZohoOAuth
 	
 	public static function getPersistenceHandlerInstance()
 	{
-		try
-		{
-			return ZohoOAuth::getConfigValue("token_persistence_path")!=""?new ZohoOAuthPersistenceByFile():new ZohoOAuthPersistenceHandler();
-		}
-		catch (Exception $ex)
-		{
-			throw new ZohoOAuthException($ex);
-		}
+		return new \App\integrations\zohocrm\ZohoOAuthPersistenceHandler();
+		
 	}
 	
 	public static function getClientInstance()
