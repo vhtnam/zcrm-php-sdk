@@ -11,7 +11,7 @@ class ZohoOAuth
 {
 
 	private static $configProperties =array();
-	
+	private static $initialized = false;
 	public static function initializeWithOutInputStream($configuration)
 	{
 	    self::initialize(false,$configuration);
@@ -19,6 +19,8 @@ class ZohoOAuth
 	
 	public static function initialize($configFilePointer,$configuration)
 	{
+		if(self::$initialized)
+			return;
 	    try
 	    {
 	        if($configuration == null)
@@ -60,7 +62,9 @@ class ZohoOAuth
 	            $oAuthParams->setClientId(self::getConfigValue(ZohoOAuthConstants::CLIENT_ID));
 	            $oAuthParams->setClientSecret(self::getConfigValue(ZohoOAuthConstants::CLIENT_SECRET));
 	            $oAuthParams->setRedirectURL(self::getConfigValue(ZohoOAuthConstants::REDIRECT_URL));
+				$oAuthParams->setScopes(self::getConfigValue(ZohoOAuthConstants::SCOPES));
 	            ZohoOAuthClient::getInstance($oAuthParams);
+				self::$initialized = true;
 	    }
 	    catch (IOException $ioe)
 	    {
@@ -71,8 +75,8 @@ class ZohoOAuth
 	
 	private static function setConfigValues($configuration)
 	{
-	    $config_keys = array(ZohoOAuthConstants::CLIENT_ID,ZohoOAuthConstants::CLIENT_SECRET,ZohoOAuthConstants::REDIRECT_URL,ZohoOAuthConstants::ACCESS_TYPE
-			,ZohoOAuthConstants::PERSISTENCE_HANDLER_CLASS,ZohoOAuthConstants::IAM_URL,ZohoOAuthConstants::TOKEN_PERSISTENCE_PATH,ZohoOAuthConstants::DATABASE_PORT
+	    $config_keys = array(ZohoOAuthConstants::CLIENT_ID,ZohoOAuthConstants::CLIENT_SECRET,ZohoOAuthConstants::REDIRECT_URL,ZohoOAuthConstants::ACCESS_TYPE,
+			ZohoOAuthConstants::SCOPES,ZohoOAuthConstants::PERSISTENCE_HANDLER_CLASS,ZohoOAuthConstants::IAM_URL,ZohoOAuthConstants::TOKEN_PERSISTENCE_PATH,ZohoOAuthConstants::DATABASE_PORT
 			,ZohoOAuthConstants::DATABASE_PASSWORD,ZohoOAuthConstants::DATABASE_USERNAME);
 	    
 	    if(!array_key_exists(ZohoOAuthConstants::ACCESS_TYPE,$configuration) || $configuration[ZohoOAuthConstants::ACCESS_TYPE] == "")
@@ -93,6 +97,7 @@ class ZohoOAuth
 	        if(array_key_exists($key,$configuration))
 	            self::$configProperties[$key] = $configuration[$key];
 	    }
+		
 	}
 	public static function getConfigValue($key)
 	{

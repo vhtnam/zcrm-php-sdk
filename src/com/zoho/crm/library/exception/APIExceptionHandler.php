@@ -8,7 +8,8 @@ class APIExceptionHandler
 	{
 		$msg=get_class($e)." Caused by:'{$e->getMessage()}' in {$e->getFile()}({$e->getLine()})\nTrace::".$e->getTraceAsString();
 		$message=$e->getMessage().";;Trace::".$e->getTraceAsString();
-		Logger::err($msg);
+		throw new \Exception($message);
+		//Logger::err($msg);
 	}
 	
 	public static function getFaultyResponseCodes()

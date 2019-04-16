@@ -44,6 +44,10 @@ class ZohoOAuthHTTPConnector
 	public function getUrl() {
 		return $this->url;
 	}
+	public function getUrlWithParams() {
+		$url=self::getUrl()."?".self::getUrlParamsAsString($this->requestParams);
+		return $url;
+	}
 	public function setUrl($url) {
 		$this->url = $url;
 	}
