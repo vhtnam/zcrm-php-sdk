@@ -187,6 +187,19 @@ class ZohoOAuthClient
     	
     	return $jsonResponse;
     }
-    
+    public function getAccessTokenUrl()
+	{
+		$zohoHttpCon = new ZohoOAuthHTTPConnector();
+		$url = ZohoOAuth::getGrantURL();
+		$zohoHttpCon->setUrl($url);
+		$zohoHttpCon->addParam(ZohoOAuthConstants::CLIENT_ID, $this->zohoOAuthParams->getClientId());
+		$zohoHttpCon->addParam(ZohoOAuthConstants::ACCESS_TYPE, ZohoOAuthConstants::ACCESS_TYPE_OFFLINE);
+		$zohoHttpCon->addParam(ZohoOAuthConstants::RESPONSE_TYPE, ZohoOAuthConstants::RESPONSE_TYPE_CODE);
+		$zohoHttpCon->addParam('scope', $this->zohoOAuthParams->getScopes());
+		$zohoHttpCon->addParam(ZohoOAuthConstants::PROMPT, ZohoOAuthConstants::PROMPT_CONSENT);
+		//$zohoHttpCon->addParam(ZohoOAuthConstants::CLIENT_SECRET, $this->zohoOAuthParams->getClientSecret());
+		$zohoHttpCon->addParam(ZohoOAuthConstants::REDIRECT_URL, $this->zohoOAuthParams->getRedirectURL());
+		return $zohoHttpCon->getUrlWithParams();
+	}
 }
 ?>
