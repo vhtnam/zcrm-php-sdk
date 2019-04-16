@@ -31,8 +31,6 @@ class ZohoHTTPConnector
 	public function fireRequest()
 	{
 		$curl_pointer=curl_init();
-		$requestParamsMap = self::getRequestParamsMap();
-		if(is_array($requestParamsMap) && count($requestParamsMap)>0)
 		if(is_array(self::getRequestParamsMap()) && count(self::getRequestParamsMap())>0)
 		{
 			$url=self::getUrl()."?".self::getUrlParamsAsString(self::getRequestParamsMap());
