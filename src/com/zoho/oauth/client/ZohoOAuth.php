@@ -161,7 +161,11 @@ class ZohoOAuth
 	
 	public static function getPersistenceHandlerInstance()
 	{
-		return new \App\integrations\zohocrm\ZohoOAuthPersistenceHandler();
+		$custom_class = config('integrations.zohocrm.persistence_handler_class');
+		if(class_exists($custom_class)) {
+			return new $custom_class;
+		}
+		return new ZohoOAuthPersistenceHandler();
 		
 	}
 	
